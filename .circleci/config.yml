@@ -5,6 +5,15 @@ defaults: &defaults
   environment:
     BASH_ENV: local.env
     REGION: us-east-1
+    ORGANIZATION: feedyard
+    OS: Ubuntu 1604LTS
+    BUILD_REGION: us-east-1
+    BUILD_ACCOUNT: 667882779648
+    INSTANCE_TYPE: t2.medium
+    DEPLOY_REGIONS: us-east-1
+    AWS_ACCOUNTS: "538257557236,151701496001,750464328775"
+    SOURCE_VERSION: "1.0.0.2"
+    KEY_PAIR: ami-build-pipelines
   docker:
     - image: quay.io/thoughtworks_aelab/di-circleci-infra-agent
 
@@ -21,11 +30,6 @@ jobs:
       - run:
           name: decrypt secrets
           command: invoke dec
-      - run:
-          name: setup environment variables
-          command: |
-            echo "" >> local.env
-            cat variables >> local.env
       - run:
           name: setup aws credentials
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
@@ -47,11 +51,6 @@ jobs:
           name: decrypt secrets
           command: invoke dec
       - run:
-          name: setup environment variables
-          command: |
-            echo "" >> local.env
-            cat variables >> local.env
-      - run:
           name: setup aws credentials
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
       - run:
@@ -69,11 +68,6 @@ jobs:
       - run:
           name: decrypt secrets
           command: invoke dec
-      - run:
-          name: setup environment variables
-          command: |
-            echo "" >> local.env
-            cat variables >> local.env
       - run:
           name: setup aws credentials
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
