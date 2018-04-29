@@ -23,7 +23,9 @@ jobs:
           command: invoke dec
       - run:
           name: setup environment variables
-          command: echo ./variables >> local.env
+          command: |
+            echo "" >> local.env
+            cat variables >> local.env
       - run:
           name: setup aws credentials
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
@@ -44,7 +46,9 @@ jobs:
           command: invoke dec
       - run:
           name: setup environment variables
-          command: cat variables >> local.env
+          command: |
+            echo "" >> local.env
+            cat variables >> local.env
       - run:
           name: setup aws credentials
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
@@ -65,7 +69,9 @@ jobs:
           command: invoke dec
       - run:
           name: setup environment variables
-          command: cat variables >> local.env
+          command: |
+            echo "" >> local.env
+            cat variables >> local.env
       - run:
           name: setup aws credentials
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
