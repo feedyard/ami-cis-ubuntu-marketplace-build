@@ -1,0 +1,86 @@
+---
+version: 2
+defaults: &defaults
+  working_directory: ~/ami-cis-ubuntu-marketplace-build
+  environment:
+    BASH_ENV: local.env
+    REGION: us-east-1
+  docker:
+    - image: quay.io/thoughtworks_aelab/di-circleci-infra-agent
+
+jobs:
+
+  build-ami:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: confirm Docker
+          command: docker info
+      - run:
+          name: decrypt secrets
+          command: invoke dec
+      - run:
+          name: setup environment variables
+          command: echo ./variables >> local.env
+      - run:
+          name: setup aws credentials
+          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
+      - run:
+          name: packer build job
+          command: invoke build
+
+  configuration-test:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: confirm Docker
+          command: docker info
+      - run:
+          name: decrypt secrets
+          command: invoke dec
+      - run:
+          name: setup environment variables
+          command: echo ./variables >> local.env
+      - run:
+          name: setup aws credentials
+          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
+      - run:
+          name: test-kitchen inspec verify
+          command: invoke inspec $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
+
+  cve-inspection:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: confirm Docker
+          command: docker info
+      - run:
+          name: decrypt secrets
+          command: invoke dec
+      - run:
+          name: setup environment variables
+          command: echo ./variables >> local.env
+      - run:
+          name: setup aws credentials
+          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
+      - run:
+          name: run AWS Inspector cve package inspection
+          command: invoke awsinspector $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
+
+workflows:
+  version: 2
+  ami-cis-ubuntu-nmarketplace-build-pipeline:
+    jobs:
+      - build-ami
+      - configuration-test:
+          requires:
+            - build-ami
+      - cve-inspection:
+          requires:
+            - build-ami

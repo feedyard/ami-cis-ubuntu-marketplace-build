@@ -1,0 +1,35 @@
+---
+driver:
+  name: ec2
+  aws_ssh_key_id: ami-build-pipelines
+  region: us-east-1
+  instance_type: t2.medium
+  associate_public_ip: true
+  interface: dns
+
+transport:
+  ssh_key: ./id_rsa.env
+  connection_timeout: 10
+  connection_retries: 5
+  username: ubuntu
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: cis-ubuntu-16.04
+    driver:
+      image_search:
+        owner-id: "667882779648"
+        name: "*CIS Ubuntu 1604LTS Level 1*"
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            volume_size: 40
+            delete_on_termination: true
+
+suites:
+  - name: default
+    verifier:
+      inspec_tests:
+        - profiles/cis-ubuntu1604-benchmark-level-1

@@ -1,0 +1,39 @@
+---
+driver:
+  name: ec2
+  aws_ssh_key_id: {{ key_pair }}
+  region: {{ build_region }}
+  instance_type: {{ instance_type }}
+  associate_public_ip: true
+  interface: dns
+
+transport:
+  ssh_key: ./id_rsa
+  connection_timeout: 10
+  connection_retries: 5
+  username: ubuntu
+
+provisioner:
+  name: shell
+  script: install_inspector_agent.sh
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: cis-ubuntu-16.04
+    driver:
+      image_search: # automatically searches for latest
+        owner-id: "{{ build_account }}"
+        name: "*CIS Ubuntu 1604LTS Level 1*"
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            volume_size: 40
+            delete_on_termination: true
+
+suites:
+  - name: cis-ubuntu1604-benchmark-level-1
+    verifier:
+      inspec_tests:
+        - profiles/cis-ubuntu1604-benchmark-level-1

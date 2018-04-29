@@ -1,0 +1,5 @@
+*.env
+id_rsa.*
+
+# not secret but clutter
+cis_image_manifest.json
