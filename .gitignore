@@ -1,5 +1,6 @@
 *.env
-id_rsa.*
+id_rsa
+id_rsa.pub
 
 # not secret but clutter
 cis_image_manifest.json

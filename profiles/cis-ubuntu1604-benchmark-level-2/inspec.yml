@@ -1,0 +1,11 @@
+---
+name: cis-ubuntu1604-benchmark-level-2
+title: Linux Server Security
+maintainer: nic.cheneweth@thoughtworks.com
+copyright: apache 2.0
+license: Apache 2 license
+summary: InSpec testing profile to verify server configuration against cis benchmarks
+version: 1.1.0
+supports:
+  - os-name: ubuntu
+    release: 16.04

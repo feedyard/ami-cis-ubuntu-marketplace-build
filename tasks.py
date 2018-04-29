@@ -39,8 +39,8 @@ def rendertemplate(build_account, build_region, instance_type, key_pair):
 @task
 def enc(ctx, file='local.env', encoded_file='env.ci'):
     ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format(file, encoded_file))
-    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa', 'id_rsa.ci'))
-    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa.pub', 'id_rsa.pub.ci'))
+    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa.env', 'id_rsa.ci'))
+    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa.pub.env', 'id_rsa.pub.ci'))
 
 @task
 def dec(ctx, encoded_file='env.ci', file='local.env'):
