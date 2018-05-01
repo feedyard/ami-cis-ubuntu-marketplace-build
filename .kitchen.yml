@@ -8,10 +8,14 @@ driver:
   interface: dns
 
 transport:
-  ssh_key: ./id_rsa.env
+  ssh_key: ./id_rsa
   connection_timeout: 10
   connection_retries: 5
   username: ubuntu
+
+provisioner:
+  name: shell
+  script: install_inspector_agent.sh
 
 verifier:
   name: inspec
@@ -19,7 +23,7 @@ verifier:
 platforms:
   - name: cis-ubuntu-16.04
     driver:
-      image_search:
+      image_search: # automatically searches for latest
         owner-id: "667882779648"
         name: "*CIS Ubuntu 1604LTS Level 1*"
       block_device_mappings:
@@ -29,7 +33,7 @@ platforms:
             delete_on_termination: true
 
 suites:
-  - name: default
+  - name: cis-ubuntu1604-benchmark-level-1
     verifier:
       inspec_tests:
         - profiles/cis-ubuntu1604-benchmark-level-1

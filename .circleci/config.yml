@@ -54,7 +54,7 @@ jobs:
       - run:
           name: test-kitchen inspec verify
           command: |
-            echo $BUILD_ACCOUNT
+            fail_here
             invoke inspec $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
 
   cve-inspection:
