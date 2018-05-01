@@ -6,10 +6,10 @@ defaults: &defaults
     BASH_ENV: local.env
     REGION: us-east-1
     ORGANIZATION: feedyard
-    OS: Ubuntu 1604LTS
+    OS: "Ubuntu 1604LTS"
     BUILD_REGION: us-east-1
-    BUILD_ACCOUNT: 667882779648
-    INSTANCE_TYPE: t2.medium
+    BUILD_ACCOUNT: "667882779648"
+    INSTANCE_TYPE: "t2.medium"
     DEPLOY_REGIONS: us-east-1
     AWS_ACCOUNTS: "538257557236,151701496001,750464328775"
     SOURCE_VERSION: "1.0.0.2"
