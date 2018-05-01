@@ -1,6 +1,6 @@
 *.env
 id_rsa
 id_rsa.pub
-
+.kitchen/
 # not secret but clutter
 cis_image_manifest.json

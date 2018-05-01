@@ -1,3 +1,0 @@
-I, [2018-04-29T16:58:56.919144 #21921]  INFO -- Kitchen: -----> Starting Kitchen (v1.21.1)
-I, [2018-04-29T16:59:01.637403 #21921]  INFO -- Kitchen: -----> Destroying <default-cis-ubuntu-1604>...
-I, [2018-04-29T16:59:59.784066 #21921]  INFO -- Kitchen: -----> Kitchen is finished. (1m2.86s)

@@ -35,9 +35,7 @@ jobs:
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
       - run:
           name: packer build job
-          command: |
-            echo $ORGANIZATION
-            packer build templates/cis_ubuntu1604_marketplace_image.json
+          command: packer build templates/cis_ubuntu1604_marketplace_image.json
 
   configuration-test:
     <<: *defaults
@@ -55,7 +53,9 @@ jobs:
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
       - run:
           name: test-kitchen inspec verify
-          command: invoke inspec $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
+          command: |
+            echo $BUILD_ACCOUNT
+            invoke inspec $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
 
   cve-inspection:
     <<: *defaults
