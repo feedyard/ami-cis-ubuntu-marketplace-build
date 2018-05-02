@@ -65,7 +65,7 @@
       "type": "shell",
       "inline": [
         "sudo echo {{ user `source_version` }}.{{ user `build` }} > ~/build_version",
-        "sudo chmod 640 ~//build_version"
+        "sudo chmod 640 ~/build_version"
       ]
     }
   ],
