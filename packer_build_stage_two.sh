@@ -1,6 +1,6 @@
-# On startup the CIS AMI will execute a daily cron security patch update
-# need to wait a couple minutes for update to complete
-sleep 180
+#!/bin/bash
+
+sudo lsof /var/lib/dpkg/lock
 
 # add new repository info
 cat <<EOF >>  sudo tee /etc/apt/sources.list
