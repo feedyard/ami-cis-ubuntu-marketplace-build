@@ -45,14 +45,16 @@
         "purpose": "demo standard pipeline for ami artifact build",
         "os": "{{ user `os` }}"
       },
-      "ami_name": "{{ user `organization` }} CIS {{ user `os` }} Level 1 {{timestamp}} Build {{ user `build` }}",
+      "ami_name": "{{ user `organization` }} CIS {{ user `os` }} Level 1 Build {{ user `build` }}",
       "ami_regions": "{{ user `deploy_regions` }}",
       "ami_users": "{{ user `aws_accounts` }}",
       "tags": {
         "Name": "{{ user `organization` }}_cis_ubuntu.v{{ user `source_version` }}.{{ user `build` }}",
         "OS_Version": "{{ user `os` }}",
-        "build_version": "{{ user `source_version` }}.{{ user `build` }}",
-        "source_ami": "{{ .SourceAMI }}"
+        "source_ami": "{{ .SourceAMI }}",
+        "build_time": "{{timestamp}}",
+        "build_version": "{{ user `source_version` }}.{{ user `build` }}"
+
       }
     }
   ],
@@ -64,7 +66,7 @@
     {
       "type": "shell",
       "inline": [
-        "sudo echo {{ user `source_version` }}.{{ user `build` }} > ~/build_version",
+        "sudo echo {{ user `source_version` }}.{{ user `build` }}.1 > ~/build_version",
         "sudo chmod 640 ~/build_version"
       ]
     }
