@@ -61,6 +61,14 @@
   "provisioners": [
     {
       "type": "shell",
+      "inline": ["while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done"]
+    },
+    {
+      "type": "shell",
+      "script": "packer_build_stage_one.sh"
+    },
+    {
+      "type": "shell",
       "inline": [
         "sudo echo {{ user `source_version` }}.{{ user `build` }}.1 > ~/build_version",
         "sudo chmod 640 ~/build_version"
