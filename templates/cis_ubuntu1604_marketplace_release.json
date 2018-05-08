@@ -65,7 +65,7 @@
     },
     {
       "type": "shell",
-      "inline": ["udo pam-auth-update --package --force"]
+      "inline": ["sudo pam-auth-update --package --force"]
     },
     {
       "type": "shell",
