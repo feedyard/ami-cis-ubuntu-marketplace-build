@@ -1,10 +1,12 @@
 from invoke import task
 import os
 from jinja2 import Environment, FileSystemLoader
+import boto3
+import pprint
 
 @task
 def build(ctx):
-    ctx.run("packer build templates/cis_ubuntu1604_marketplace_image.json")
+    ctx.run("packer build templates/cis_ubuntu1604_marketplace_release.json")
 
 @task
 def inspec(ctx, build_account, build_region, instance_type, key_pair):
@@ -35,6 +37,7 @@ def rendertemplate(build_account, build_region, instance_type, key_pair):
     f = open(".kitchen.yml", 'w')
     f.write(renderedtemplate)
     f.close()
+
 
 @task
 def enc(ctx, file='local.env', encoded_file='env.ci'):

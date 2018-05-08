@@ -13,11 +13,3 @@ test-kitchen
 inspec
 kitchen-ec2
 kitchen-inspec
-
-
--o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold'
-
-
--o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold"
-
-this job does not clean up legacy AMI. Consider pruning

@@ -6,7 +6,7 @@ defaults: &defaults
     BASH_ENV: local.env
     REGION: "us-east-1"
     ORGANIZATION: "feedyard"
-    OS: "Ubuntu 1604LTS"
+    OS: "Ubuntu Linux 16.04 LTS"
     BUILD_REGION: "us-east-1"
     BUILD_ACCOUNT: "667882779648"
     INSTANCE_TYPE: "t2.medium"
@@ -19,7 +19,8 @@ defaults: &defaults
 
 jobs:
 
-  build-ami:
+  # Step 1: See packer_build_stage_one.sh for changes made
+  build-cis-release-ami:
     <<: *defaults
     steps:
       - checkout
@@ -27,6 +28,43 @@ jobs:
       - run:
           name: confirm Docker
           command: docker info
+      - run:
+          name: decrypt secrets
+          command: invoke dec
+      - run:
+          name: setup aws credentials
+          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
+      - run:
+          name: packer build job
+          command: packer build templates/cis_ubuntu1604_marketplace_release.json
+
+  # Step 2: See packer_build_stage_two.sh for changes made
+  build-org-release-ami:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: confirm Docker
+          command: docker info
+      - run:
+          name: decrypt secrets
+          command: invoke dec
+      - run:
+          name: setup aws credentials
+          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
+      - run:
+          name: packer build job
+          command: packer build templates/cis_ubuntu1604_organization_release.json
+
+#  configuration-test:
+#    <<: *defaults
+#    steps:
+#      - checkout
+#      - setup_remote_docker
+#      - run:
+#          name: confirm Docker
+#          command: docker info
 #      - run:
 #          name: decrypt secrets
 #          command: invoke dec
@@ -34,55 +72,37 @@ jobs:
 #          name: setup aws credentials
 #          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
 #      - run:
-#          name: packer build job
-#          command: packer build templates/cis_ubuntu1604_marketplace_image.json
+#          name: test-kitchen inspec verify
+#          command: |
+#            fail_here
+#            invoke inspec $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
 
-  configuration-test:
-    <<: *defaults
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: confirm Docker
-          command: docker info
-      - run:
-          name: decrypt secrets
-          command: invoke dec
-      - run:
-          name: setup aws credentials
-          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
-      - run:
-          name: test-kitchen inspec verify
-          command: |
-            fail_here
-            invoke inspec $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
-
-  cve-inspection:
-    <<: *defaults
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: confirm Docker
-          command: docker info
-      - run:
-          name: decrypt secrets
-          command: invoke dec
-      - run:
-          name: setup aws credentials
-          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
-      - run:
-          name: run AWS Inspector cve package inspection
-          command: invoke awsinspector $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
+#  cve-inspection:
+#    <<: *defaults
+#    steps:
+#      - checkout
+#      - setup_remote_docker
+#      - run:
+#          name: confirm Docker
+#          command: docker info
+#      - run:
+#          name: decrypt secrets
+#          command: invoke dec
+#      - run:
+#          name: setup aws credentials
+#          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
+#      - run:
+#          name: run AWS Inspector cve package inspection
+#          command: invoke awsinspector $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
 
 workflows:
   version: 2
   ami-cis-ubuntu-nmarketplace-build-pipeline:
     jobs:
-      - build-ami
-      - configuration-test:
+      - build-cis-release-ami
+      - build-org-release-ami:
           requires:
-            - build-ami
-      - cve-inspection:
-          requires:
-            - build-ami
+            - build-cis-release-ami
+#      - cve-inspection:
+#          requires:
+#            - build-ami

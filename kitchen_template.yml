@@ -31,6 +31,11 @@ platforms:
           ebs:
             volume_size: 40
             delete_on_termination: true
+      transport:
+        ssh_key: ./id_rsa
+        connection_timeout: 10
+        connection_retries: 5
+        username: ubuntu
 
 suites:
   - name: cis-ubuntu1604-benchmark-level-1

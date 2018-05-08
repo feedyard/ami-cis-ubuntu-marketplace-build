@@ -7,6 +7,12 @@ driver:
   associate_public_ip: true
   interface: dns
 
+transport:
+  ssh_key: ./id_rsa.env
+  connection_timeout: 10
+  connection_retries: 5
+  username: ubuntu
+
 provisioner:
   name: shell
   script: install_inspector_agent.sh
@@ -26,13 +32,13 @@ platforms:
             volume_size: 40
             delete_on_termination: true
       transport:
-        ssh_key: ./id_rsa
+        ssh_key: ./id_rsa.env
         connection_timeout: 10
         connection_retries: 5
         username: ubuntu
 
 suites:
-  - name: cis-ubuntu1604-benchmark-level-1
+  - name: level-1-benchmark
     verifier:
       inspec_tests:
         - profiles/cis-ubuntu1604-benchmark-level-1
