@@ -25,7 +25,7 @@ platforms:
     driver:
       image_search: # automatically searches for latest
         owner-id: "667882779648"
-        name: "*CIS Ubuntu Linux 16.04 LTS Marketplace Build*"
+        name: "*feedyard CIS Ubuntu Linux 16.04 LTS Build*"
       block_device_mappings:
         - device_name: /dev/sda1
           ebs:

@@ -11,3 +11,4 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confd
 
 # remove unnecessary packages
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y auto-remove
+dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p' | xargs sudo apt-get -y purge
