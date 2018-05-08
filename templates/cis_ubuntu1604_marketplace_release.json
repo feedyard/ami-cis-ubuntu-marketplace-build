@@ -61,7 +61,19 @@
   "provisioners": [
     {
       "type": "shell",
-      "script": "packer_build_stage_one.sh"
+      "inline": ["sleep 180"]
+    },
+    {
+      "type": "shell",
+      "inline": ["udo pam-auth-update --package --force"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo apt-get -y auto-remove"]
     },
     {
       "type": "shell",

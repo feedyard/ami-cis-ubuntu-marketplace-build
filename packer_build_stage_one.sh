@@ -6,7 +6,6 @@ sleep 180
 sudo pam-auth-update --package --force
 
 # noninteractive dist-upgrade will maintain existing secure config file settings
-sudo apt-get install -y dialog apt-utils
 sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade
 
 # remove unnecessary packages
