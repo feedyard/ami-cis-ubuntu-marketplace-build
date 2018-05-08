@@ -3,5 +3,7 @@ id_rsa
 id_rsa.pub
 .kitchen.yml
 .kitchen/
+
 # not secret but clutter
 cis_image_manifest.json
+localenv.sh

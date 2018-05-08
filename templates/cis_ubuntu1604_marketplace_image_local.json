@@ -1,7 +1,7 @@
 {
   "variables": {
     "organization": "feedyard",
-    "os": "Ubuntu 1604LTS",
+    "os": "Ubuntu Linux 16.04 LTS",
     "build_region": "us-east-1",
     "instance_type": "t2.medium",
     "deploy_regions": "us-east-1",
@@ -45,7 +45,7 @@
         "purpose": "demo standard pipeline for ami artifact build",
         "os": "{{ user `os` }}"
       },
-      "ami_name": "{{ user `organization` }} CIS {{ user `os` }} Level 1 {{timestamp}} Build {{ user `build` }}",
+      "ami_name": "{{ user `organization` }} CIS {{ user `os` }} Local Build {{ user `build` }}",
       "ami_regions": "{{ user `deploy_regions` }}",
       "ami_users": "{{ user `aws_accounts` }}",
       "tags": {

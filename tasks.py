@@ -38,7 +38,6 @@ def rendertemplate(build_account, build_region, instance_type, key_pair):
     f.write(renderedtemplate)
     f.close()
 
-
 @task
 def enc(ctx, file='local.env', encoded_file='env.ci'):
     ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format(file, encoded_file))
