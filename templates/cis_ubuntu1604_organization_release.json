@@ -60,7 +60,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "inline": ["sudo pam-auth-update --package --force"]
+      "inline": ["export DEBIAN_FRONTEND=noninteractive","sudo pam-auth-update --package --force"]
     },
     {
       "type": "shell",
