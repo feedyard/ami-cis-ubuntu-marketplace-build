@@ -69,7 +69,8 @@
     },
     {
       "type": "shell",
-      "inline": ["sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade"]
+      "inline": ["sudo apt-get -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' dist-upgrade"],
+      "environment_vars": ["DEBIAN_FRONTEND=noninteractive"]
     },
     {
       "type": "shell",
