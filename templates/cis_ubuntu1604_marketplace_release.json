@@ -61,7 +61,7 @@
   "provisioners": [
     {
       "type": "shell",
-      "inline": ["sudo touch /etc/growroot-disabled"]
+      "script": "packer_build_stage_one.sh"
     },
     {
       "type": "shell",

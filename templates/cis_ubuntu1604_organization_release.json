@@ -64,6 +64,14 @@
     },
     {
       "type": "shell",
+      "inline": ["dpkg --list | grep linux-image | awk '{ print $2 }' | sort -V | sed -n '/'`uname -r`'/q;p' | xargs sudo apt-get -y purge"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo touch /etc/growroot-disabled"]
+    },
+    {
+      "type": "shell",
       "inline": [
         "sudo echo {{ user `source_version` }}.{{ user `build` }} > ~/build_version",
         "sudo chmod 640 ~/build_version"
