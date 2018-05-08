@@ -13,9 +13,9 @@ transport:
   connection_retries: 5
   username: ubuntu
 
-provisioner:
-  name: shell
-  script: install_inspector_agent.sh
+#provisioner:
+#  name: shell
+#  script: install_inspector_agent.sh
 
 verifier:
   name: inspec
@@ -25,7 +25,7 @@ platforms:
     driver:
       image_search: # automatically searches for latest
         owner-id: "667882779648"
-        name: "*CIS Ubuntu 1604LTS Level 1*"
+        name: "*CIS Ubuntu Linux 16.04 LTS Marketplace Build*"
       block_device_mappings:
         - device_name: /dev/sda1
           ebs:
