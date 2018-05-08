@@ -18,7 +18,7 @@
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
-          "name": "{{ user `organization` }} CIS {{ user `os` }} Marketplace Level 1 Build*",
+          "name": "CIS {{ user `os` }} Marketplace Build*",
           "root-device-type": "ebs"
         },
         "most_recent": true
@@ -51,6 +51,7 @@
       "tags": {
         "Name": "{{ user `organization` }}_cis_ubuntu.v{{ user `source_version` }}.{{ user `build` }}",
         "OS_Version": "{{ user `os` }}",
+        "build_time": "{{timestamp}}",
         "build_version": "{{ user `source_version` }}.{{ user `build` }}",
         "source_ami": "{{ .SourceAMI }}"
       }

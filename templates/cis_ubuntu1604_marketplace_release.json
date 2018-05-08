@@ -45,11 +45,11 @@
         "purpose": "demo standard pipeline for ami artifact build",
         "os": "{{ user `os` }}"
       },
-      "ami_name": "{{ user `organization` }} CIS {{ user `os` }} Level 1 Build {{ user `build` }}",
+      "ami_name": "CIS {{ user `os` }} Marketplace Build {{ user `build` }}",
       "ami_regions": "{{ user `deploy_regions` }}",
       "ami_users": "{{ user `aws_accounts` }}",
       "tags": {
-        "Name": "{{ user `organization` }}_cis_ubuntu.v{{ user `source_version` }}.{{ user `build` }}",
+        "Name": "marketplace_cis_ubuntu.v{{ user `source_version` }}.{{ user `build` }}",
         "OS_Version": "{{ user `os` }}",
         "source_ami": "{{ .SourceAMI }}",
         "build_time": "{{timestamp}}",
