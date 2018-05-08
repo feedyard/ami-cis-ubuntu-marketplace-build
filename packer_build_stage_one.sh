@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo lsof /var/lib/dpkg/lock
+
 # set pam config
 sudo DEBIAN_FRONTEND=noninteractive pam-auth-update --package --force
 
