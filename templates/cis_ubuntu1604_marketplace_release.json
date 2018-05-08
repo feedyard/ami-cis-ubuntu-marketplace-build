@@ -61,18 +61,6 @@
   "provisioners": [
     {
       "type": "shell",
-      "inline": ["sleep 180"]
-    },
-    {
-      "type": "shell",
-      "inline": ["sudo pam-auth-update --package --force"]
-    },
-    {
-      "type": "shell",
-      "inline": ["sudo apt-get -y auto-remove"]
-    },
-    {
-      "type": "shell",
       "inline": [
         "sudo echo {{ user `source_version` }}.{{ user `build` }}.1 > ~/build_version",
         "sudo chmod 640 ~/build_version"
