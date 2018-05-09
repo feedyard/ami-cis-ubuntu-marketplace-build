@@ -9,7 +9,7 @@ def build(ctx):
 @task
 def inspec(ctx, build_account, build_region, instance_type, key_pair, os_name):
     rendertemplate(build_account, build_region, instance_type, key_pair, os_name)
-    ctx.run('kitchen test')
+    #ctx.run('kitchen test')
 
 @task
 def awsinspector(ctx, build_account, build_region, instance_type, key_pair, os_name):
