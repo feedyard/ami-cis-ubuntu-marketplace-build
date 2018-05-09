@@ -1,15 +1,23 @@
 # ami-cis-ubuntu-marketplace-build
-Pipeline to patch, congiure, version, and upload CIS Marketplace available Ubuntu 160.04 LTS hardened image
+Pipeline to patch, configure, version, and upload CIS Marketplace available Ubuntu Linux 16.04 LTS level 1 image
 
-1. consider a target VPC/subnet location with pu blic access for 'builders'
-2. 
+    #
+    # Performing a cve scan of the ami definition using AWS Inspector requires the configuration of
+    # - assessment resource group definition based on key=value pair 'created-by=test-kitchen'
+    # - assessment target definition based on the resource group
+    # - assessment template using rules package 'Common Vulnerabilities and Exposures-1.1'
+    #
+    # steps:
+    # - boto3 configuration of
 
 
 # requirements
 
+python
+invoke
 ruby >= 2.4.0
 packer
-test-kitchen
 inspec
+test-kitchen
 kitchen-ec2
 kitchen-inspec

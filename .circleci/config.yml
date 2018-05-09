@@ -57,43 +57,41 @@ jobs:
           name: packer build job
           command: packer build templates/cis_ubuntu1604_organization_release.json
 
-#  configuration-test:
-#    <<: *defaults
-#    steps:
-#      - checkout
-#      - setup_remote_docker
-#      - run:
-#          name: confirm Docker
-#          command: docker info
-#      - run:
-#          name: decrypt secrets
-#          command: invoke dec
-#      - run:
-#          name: setup aws credentials
-#          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
-#      - run:
-#          name: test-kitchen inspec verify
-#          command: |
-#            fail_here
-#            invoke inspec $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
+  inspec-tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: confirm Docker
+          command: docker info
+      - run:
+          name: decrypt secrets
+          command: invoke dec
+      - run:
+          name: setup aws credentials
+          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
+      - run:
+          name: test-kitchen inspec verify
+          command: invoke inspec $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR $OS
 
-#  cve-inspection:
-#    <<: *defaults
-#    steps:
-#      - checkout
-#      - setup_remote_docker
-#      - run:
-#          name: confirm Docker
-#          command: docker info
-#      - run:
-#          name: decrypt secrets
-#          command: invoke dec
-#      - run:
-#          name: setup aws credentials
-#          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
-#      - run:
-#          name: run AWS Inspector cve package inspection
-#          command: invoke awsinspector $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR
+  cve-inspection:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: confirm Docker
+          command: docker info
+      - run:
+          name: decrypt secrets
+          command: invoke dec
+      - run:
+          name: setup aws credentials
+          command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
+      - run:
+          name: run AWS Inspector cve package inspection
+          command: invoke awsinspector $BUILD_ACCOUNT $BUILD_REGION $INSTANCE_TYPE $KEY_PAIR $OS
 
 workflows:
   version: 2
@@ -103,6 +101,9 @@ workflows:
       - build-org-release-ami:
           requires:
             - build-cis-release-ami
-#      - cve-inspection:
-#          requires:
-#            - build-ami
+      - inspec-tests:
+          requires:
+            - build-org-release-ami
+      - cve-inspection:
+          requires:
+            - build-org-release-ami

@@ -25,7 +25,7 @@ platforms:
     driver:
       image_search: # automatically searches for latest
         owner-id: "{{ build_account }}"
-        name: "*CIS Ubuntu 1604LTS Level 1*"
+        name: "*feedyard CIS {{ os_name }} Build*"
       block_device_mappings:
         - device_name: /dev/sda1
           ebs:
@@ -38,7 +38,7 @@ platforms:
         username: ubuntu
 
 suites:
-  - name: cis-ubuntu1604-benchmark-level-1
+  - name: level-1-benchmark
     verifier:
       inspec_tests:
         - profiles/cis-ubuntu1604-benchmark-level-1

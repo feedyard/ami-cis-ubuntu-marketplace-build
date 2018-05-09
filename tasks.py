@@ -1,24 +1,22 @@
 from invoke import task
 import os
 from jinja2 import Environment, FileSystemLoader
-import boto3
-import pprint
 
 @task
 def build(ctx):
     ctx.run("packer build templates/cis_ubuntu1604_marketplace_release.json")
 
 @task
-def inspec(ctx, build_account, build_region, instance_type, key_pair):
-    rendertemplate(build_account, build_region, instance_type, key_pair)
+def inspec(ctx, build_account, build_region, instance_type, key_pair, os_name):
+    rendertemplate(build_account, build_region, instance_type, key_pair, os_name)
     ctx.run('kitchen test')
 
 @task
-def awsinspector(ctx, build_account, build_region, instance_type, key_pair):
-    rendertemplate(build_account, build_region, instance_type, key_pair)
+def awsinspector(ctx, build_account, build_region, instance_type, key_pair, os_name):
+    rendertemplate(build_account, build_region, instance_type, key_pair, os_name)
     ctx.run('echo aws inspector validation not yet configured')
 
-def rendertemplate(build_account, build_region, instance_type, key_pair):
+def rendertemplate(build_account, build_region, instance_type, key_pair, os_name):
     DICTIONARY = {}
     PATH = os.path.dirname(os.path.abspath(__file__))
     TEMPLATE_ENVIRONMENT = Environment(
@@ -30,6 +28,7 @@ def rendertemplate(build_account, build_region, instance_type, key_pair):
     DICTIONARY['build_region'] = build_region
     DICTIONARY['instance_type'] = instance_type
     DICTIONARY['key_pair'] = key_pair
+    DICTIONARY['os_name'] = os_name
 
     template = TEMPLATE_ENVIRONMENT.get_template("kitchen_template.yml")
     renderedtemplate = template.render(**DICTIONARY)
