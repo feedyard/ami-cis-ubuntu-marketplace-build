@@ -38,13 +38,13 @@ def rendertemplate(build_account, build_region, instance_type, key_pair, os_name
     f.close()
 
 @task
-def enc(ctx, file='local.env', encoded_file='env.ci'):
-    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format(file, encoded_file))
-    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa.env', 'id_rsa.ci'))
-    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa.pub.env', 'id_rsa.pub.ci'))
+def enc(ctx):
+    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('local.env', 'env.ci'))
+    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa_ec2.env', 'id_rsa_ec2.ci'))
+    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa_ec2.pub.env', 'id_rsa_ec2.pub.ci'))
 
 @task
-def dec(ctx, encoded_file='env.ci', file='local.env'):
-    ctx.run("openssl aes-256-cbc -d -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format(encoded_file, file))
-    ctx.run("openssl aes-256-cbc -d -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa.ci', 'id_rsa'))
-    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa.pub.ci', 'id_rsa.pub'))
+def dec(ctx):
+    ctx.run("openssl aes-256-cbc -d -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('env.ci', 'local.env'))
+    ctx.run("openssl aes-256-cbc -d -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa_ec2.ci', 'id_rsa_ec2'))
+    ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa_ec2.pub.ci', 'id_rsa_ec2.pub'))

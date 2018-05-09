@@ -73,7 +73,7 @@ jobs:
           command: bash setup_credentials.sh $di_nonprod_terraform_user_access_key $di_nonprod_terraform_user_secret_key $REGION
       - run:
           name: test-kitchen inspec verify
-          command: invoke1 inspec $BUILD_ACCOUNT $BUILD_REGION "$INSTANCE_TYPE" $KEY_PAIR "$OS"
+          command: invoke inspec $BUILD_ACCOUNT $BUILD_REGION "$INSTANCE_TYPE" $KEY_PAIR "$OS"
 
 #  cve-inspection:
 #    <<: *defaults
