@@ -1,15 +1,15 @@
 # ami-cis-ubuntu-marketplace-build
-Pipeline to patch, configure, version, and upload CIS Marketplace available Ubuntu Linux 16.04 LTS level 1 image
+Pipeline to patch, configure, version, and publish CIS Marketplace available Ubuntu Linux 16.04 LTS level 1 hardened AMI
 
 1. Two stage build
 
-   stage one: Pulls CIS marketplace image, performs dist-upgrade
-   stage two: Uses AMI from stage one, purge pre dist-upgrade kernels, perform any remaining cve remediation
+* stage one: Pulls CIS marketplace image, performs dist-upgrade
+* stage two: Uses AMI from stage one, purge pre dist-upgrade kernels and unnecessary packages, perform any remaining cve remediation
    
 2. Two kinds of testing
 
-   inspec: cis level 1 benchmark tests to validate configuration hardening
-   cve:    AWS Inspector cve scan for package vulnerabilities
+* _inspec_: cis level 1 benchmark tests to validate configuration hardening
+* _cve_: AWS Inspector cve scan for package vulnerabilities
 
 3. AWS build location
 
@@ -28,11 +28,11 @@ This can be done either as part of the terraform pipeline that provisions a buil
 or you can use boto3 to idempotently create as part of the awsinspector function in tasks.py
 
 The additional steps needed within '$invoke awsinspector' to perform the inspection:
-* It already generates a test-kitchen tempmlate
+* It already generates a test-kitchen template
 * Use kitchen.create and kitchen.converge to create an AWS instance and install the Inspector agent
-* boto3.client('inspector').start_assessment_run(assessmentTemplateArn='string', assessmentRunName='string') to trigger and assessment run
-* poll boto3.client('inspector').list_assessment_runs with the assessmentTemplateArn until assessmentRunName appears (15-17 min)
-* poll get_assessment_report with above assessmentRunArn and HTML format until it returns a download url
+* boto3.client('inspector').start_assessment_run(assessmentTemplateArn='string', assessmentRunName='string') to trigger an assessment run
+* poll boto3.client('inspector').list_assessment_runs() with the assessmentTemplateArn until assessmentRunName appears (15-17 min)
+* poll boto3.client('inspector').get_assessment_report() with above assessmentRunArn and HTML format until it returns a download url
 * download and archive, then scan html for vulnerabilities found and alert
 
 As noted in item 1 above, if the cve scan shows vulnerabilities remediation is performed in stage two of the build.
