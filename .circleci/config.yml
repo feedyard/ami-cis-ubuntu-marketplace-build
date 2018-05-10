@@ -75,7 +75,7 @@ jobs:
           name: test-kitchen inspec verify
           command: |
             invoke inspec $BUILD_ACCOUNT $BUILD_REGION "$INSTANCE_TYPE" $KEY_PAIR "$OS"
-            fail
+
 
 #  cve-inspection:
 #    <<: *defaults

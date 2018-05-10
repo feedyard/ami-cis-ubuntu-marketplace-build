@@ -8,7 +8,7 @@ driver:
   interface: dns
 
 transport:
-  ssh_key: /root/ami-cis-ubuntu-marketplace-build/id_rsa
+  ssh_key: /root/ami-cis-ubuntu-marketplace-build/id_rsa_ec2
   connection_timeout: 10
   connection_retries: 5
   username: ubuntu
@@ -32,7 +32,7 @@ platforms:
             volume_size: 40
             delete_on_termination: true
       transport:
-        ssh_key: /root/ami-cis-ubuntu-marketplace-build/id_rsa
+        ssh_key: /root/ami-cis-ubuntu-marketplace-build/id_rsa_ec2
         connection_timeout: 10
         connection_retries: 5
         username: ubuntu

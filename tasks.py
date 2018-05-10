@@ -9,7 +9,7 @@ def build(ctx):
 @task
 def inspec(ctx, build_account, build_region, instance_type, key_pair, os_name):
     rendertemplate(build_account, build_region, instance_type, key_pair, os_name)
-    #ctx.run('kitchen test')
+    ctx.run('kitchen test')
 
 @task
 def awsinspector(ctx, build_account, build_region, instance_type, key_pair, os_name):
@@ -47,4 +47,5 @@ def enc(ctx):
 def dec(ctx):
     ctx.run("openssl aes-256-cbc -d -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('env.ci', 'local.env'))
     ctx.run("openssl aes-256-cbc -d -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa_ec2.ci', 'id_rsa_ec2'))
+    ctx.run("chmod 400 id_rsa_ec2")
     ctx.run("openssl aes-256-cbc -e -in {} -out {} -k $FEEDYARD_PIPELINE_KEY".format('id_rsa_ec2.pub.ci', 'id_rsa_ec2.pub'))
